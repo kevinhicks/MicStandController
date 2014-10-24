@@ -1,12 +1,7 @@
-package com.keyhole.khcontroller;
+package com.keyhole.khcontroller.util;
 
 import com.keyhole.khcontroller.device.WebClient;
 
-/**
- * 
- * @author keyho_000
- *
- */
 public class MicThread extends Thread {
 
 	private boolean running = true;

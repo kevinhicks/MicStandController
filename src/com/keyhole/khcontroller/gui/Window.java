@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import com.keyhole.khcontroller.MicThread;
+import com.keyhole.khcontroller.util.MicThread;
 
 @SuppressWarnings("serial")
 public class Window extends Frame implements WindowListener {
