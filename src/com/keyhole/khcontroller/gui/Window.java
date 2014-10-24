@@ -10,23 +10,31 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import com.keyhole.khcontroller.util.MicThread;
+import com.keyhole.khcontroller.util.Settings;
 
 @SuppressWarnings("serial")
 public class Window extends Frame implements WindowListener {
 
+	//Microphone Buttons
 	Button btnLowerMic;
 	Button btnRaiseMic;
-
+	
+	//Screen Buttons
+	Button btnLowerScreen;
+	Button btnRaiseScreen;
+	Button btnStopScreen;
+	
+	//Thread that talks to the Web Device
 	MicThread continousThread;
-
+	
 	public Window() {
-		addWindowListener(this);
-		setVisible(true);
-
+		GridLayout masterLayout = new GridLayout(2,2);		
+		setLayout(masterLayout);
 		
-		GridLayout layout = new GridLayout(2,2);		
-		setLayout(layout);
+		addWindowListener(this);		
+		setVisible(true);
 		setSize(500,  400);
+		setTitle("Mic Stand Controller");
 		setMinimumSize(new Dimension(500,400));
 		
 		btnLowerMic = new Button();
@@ -55,7 +63,7 @@ public class Window extends Frame implements WindowListener {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				System.out.println("Pressed");
-				continousThread = new MicThread(2, .1f);
+				continousThread = new MicThread(Settings.GetLowerMicRelay(), .1f);
 				continousThread.start();
 			}
 
@@ -66,8 +74,7 @@ public class Window extends Frame implements WindowListener {
 			}
 
 		});
-		this.add(btnLowerMic);
-		
+		this.add(btnLowerMic);		
 
 		btnRaiseMic = new Button();
 		btnRaiseMic.setMinimumSize(new Dimension(200, 350));
@@ -95,7 +102,7 @@ public class Window extends Frame implements WindowListener {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				System.out.println("Pressed");
-				continousThread = new MicThread(1, .1f);
+				continousThread = new MicThread(Settings.GetRaiseMicRelay(), .1f);
 				continousThread.start();
 			}
 
@@ -107,9 +114,125 @@ public class Window extends Frame implements WindowListener {
 
 		});
 		
+		btnLowerScreen = new Button();
+		btnLowerScreen.setMinimumSize(new Dimension(200, 350));
+		btnLowerScreen.setLabel("Lower Screen");
+		btnLowerScreen.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				System.out.println("Pressed");
+				continousThread = new MicThread(Settings.GetLowerScreenRelay(), .1f);
+				continousThread.start();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				System.out.println("Released");
+				continousThread.stopMoving();
+			}
+
+		});
 		
+		btnRaiseScreen = new Button();
+		btnRaiseScreen.setMinimumSize(new Dimension(200, 350));
+		btnRaiseScreen.setLabel("Raise Screen");
+		btnRaiseScreen.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				System.out.println("Pressed");
+				continousThread = new MicThread(Settings.GetRaiseScreenRelay(), .1f);
+				continousThread.start();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				System.out.println("Released");
+				continousThread.stopMoving();
+			}
+
+		});
+
+		btnStopScreen = new Button();
+		btnStopScreen.setMinimumSize(new Dimension(200, 350));
+		btnStopScreen.setLabel("Stop Screen");
+		btnStopScreen.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				System.out.println("Pressed");
+				continousThread = new MicThread(Settings.GetRaiseScreenRelay(), .1f);
+				continousThread.start();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				System.out.println("Released");
+				continousThread.stopMoving();
+			}
+
+		});
+	
 		this.add(btnLowerMic);
 		this.add(btnRaiseMic);
+		this.add(btnLowerScreen);
+		this.add(btnRaiseScreen);
+		this.add(btnStopScreen);	
 		
 		pack();
 	}
