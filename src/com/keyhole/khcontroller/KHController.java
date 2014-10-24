@@ -1,12 +1,10 @@
 package com.keyhole.khcontroller;
 
-import com.keyhole.khcontroller.gui.Window;
+import com.keyhole.khcontroller.gui.MainWindow;
 
 public class KHController {
-	private Window window;
-
 	public KHController() {
-		window = new Window();		
+		MainWindow.GetInstance();
 	}
 
 	public static void main(String[] args) {

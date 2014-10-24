@@ -4,6 +4,11 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -13,7 +18,7 @@ import com.keyhole.khcontroller.util.MicThread;
 import com.keyhole.khcontroller.util.Settings;
 
 @SuppressWarnings("serial")
-public class Window extends Frame implements WindowListener {
+public class MainWindow extends Frame implements WindowListener {
 
 	//Microphone Buttons
 	Button btnLowerMic;
@@ -27,7 +32,21 @@ public class Window extends Frame implements WindowListener {
 	//Thread that talks to the Web Device
 	MicThread continousThread;
 	
-	public Window() {
+	//Menu 
+	MenuBar menuBar;
+	Menu fileMenu;
+	MenuItem settingsMenuItem;
+	
+	private static MainWindow _instance = null;
+	public static MainWindow GetInstance() {
+		if(_instance == null) {
+			_instance = new MainWindow();
+		}		
+		return _instance;
+	}
+	
+	
+	private MainWindow() {
 		GridLayout masterLayout = new GridLayout(2,2);		
 		setLayout(masterLayout);
 		
@@ -36,6 +55,21 @@ public class Window extends Frame implements WindowListener {
 		setSize(500,  400);
 		setTitle("Mic Stand Controller");
 		setMinimumSize(new Dimension(500,400));
+
+		settingsMenuItem = new MenuItem("Settings");
+		settingsMenuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		fileMenu = new Menu("File");
+		menuBar = new MenuBar();
+		
+		setMenuBar(menuBar);
 		
 		btnLowerMic = new Button();
 		btnLowerMic.setMinimumSize(new Dimension(200, 350));
