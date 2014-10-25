@@ -1,0 +1,26 @@
+<project default="main">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/MicStandController.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.keyhole.khcontroller.KHController"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/MicStandController.jar" fork="true"/>
+    </target>
+
+	<target name="main" depends="clean, compile, jar">		
+	</target>
+</project>
