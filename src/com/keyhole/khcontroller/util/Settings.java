@@ -1,6 +1,49 @@
 package com.keyhole.khcontroller.util;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class Settings {
+	
+	static {
+		new Settings();
+	}
+	
+	private int lowerMicRelay;
+	private int raiseMicRelay;
+	private int lowerScreenRelay;
+	private int raiseScreenRelay;
+	
+	private String ip;
+	private int port;
+	
+	public Settings() {
+
+		Properties prop = new Properties();
+		
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
+		try {
+			prop.load(inputStream);
+		} catch (IOException e) {
+			System.out.println("exceptop");
+			return;
+		}
+		if (inputStream == null) {
+			System.out.println("error");
+			return;
+		}
+ 
+		ip = prop.getProperty("ip");
+		//TODO check for missing config file & invalid settings
+		port = Integer.parseInt(prop.getProperty("port"));
+		raiseMicRelay = Integer.parseInt(prop.getProperty("RaiseMicRelay"));
+		lowerMicRelay = Integer.parseInt(prop.getProperty("LowerMicRelay"));
+		raiseScreenRelay = Integer.parseInt(prop.getProperty("RaiseScreenRelay"));
+		lowerScreenRelay = Integer.parseInt(prop.getProperty("LowerScreenRelay"));
+	}
+	
 	public static int GetLowerMicRelay()
 	{
 		return 2;
