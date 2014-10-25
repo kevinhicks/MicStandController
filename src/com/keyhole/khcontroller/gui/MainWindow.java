@@ -61,13 +61,15 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				SettingsWindow.GetInstance();				
 			}
 		});
 		
 		fileMenu = new Menu("File");
+		fileMenu.add(settingsMenuItem);
+		
 		menuBar = new MenuBar();
+		menuBar.add(fileMenu);
 		
 		setMenuBar(menuBar);
 		

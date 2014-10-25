@@ -40,4 +40,20 @@ public class Settings {
 	{
 		
 	}
+	
+	public static String GetIp() {
+		return "192.168.0.123";
+	}
+	
+	public static void SetIp(String ip) {
+		
+	}
+	
+	public static int GetPort() {
+		return 80;
+	}
+	
+	public static void SetPort(int port) {
+		
+	}
 }
