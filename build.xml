@@ -16,6 +16,7 @@
 			<manifest>
 				<attribute name="Main-Class" value="com.keyhole.khcontroller.KHController" />
 			</manifest>
+			<fileset dir="Resources" />
 		</jar>
 	</target>
 
@@ -24,16 +25,15 @@
 	</target>
 
 	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="jarbundler-2.3.1.jar" />
-	<target name="macBundler">
+	<target name="macBundler2">
 		<mkdir dir="release" />
 		<jarbundler dir="release" name="MyApp" mainclass="com.keyhole.khcontroller.KHController" jar="build/jar/MicStandController.jar" />
 	</target>
 
 	<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="appbundler-1.0.jar" />
-	<target name="macBundler2">
-		<mkdir dir="release2" />
+	<target name="macBundler">
+		<mkdir dir="release" />
 		<bundleapp outputdirectory="release" name="MyApp" identifier="KHController" displayname="TEST_NAME" mainclassname="com.keyhole.khcontroller.KHController">
-			<runtime dir="${env.JAVA_HOME}" />
 			<classpath file="build/jar/MicStandController.jar" />
 		</bundleapp>
 	</target>
@@ -42,6 +42,6 @@
 		<delete dir="build/classes" />
 	</target>
 
-	<target name="main" depends="clean, compile, jar, macBundler, macBundler2, postClean">
+	<target name="main" depends="clean, compile, jar, macBundler, postClean">
 	</target>
 </project>
