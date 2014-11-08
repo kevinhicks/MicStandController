@@ -24,12 +24,6 @@
 		<java jar="build/jar/MicStandController.jar" fork="true" />
 	</target>
 
-	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="jarbundler-2.3.1.jar" />
-	<target name="macBundler2">
-		<mkdir dir="release" />
-		<jarbundler dir="release" name="MyApp" mainclass="com.keyhole.khcontroller.KHController" jar="build/jar/MicStandController.jar" />
-	</target>
-
 	<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="appbundler-1.0.jar" />
 	<target name="macBundler">
 		<mkdir dir="release" />
