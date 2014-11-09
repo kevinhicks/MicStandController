@@ -1,6 +1,7 @@
 package com.keyhole.khcontroller.gui;
 
 import java.awt.Button;
+import java.awt.Checkbox;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -26,6 +27,12 @@ public class SettingsWindow extends Frame implements WindowListener {
 	private TextField txtIp;
 	private TextField txtPort;
 	
+	private TextField txtRaiseMicRelay;
+	private TextField txtLowerMicRelay;
+	private TextField txtRaiseScreenRelay;
+	private TextField txtLowerScreenRelay;
+	private Checkbox chkShowScreenControls;
+	
 	private Button btnCancel;
 	private Button btnSave;
 	
@@ -33,13 +40,28 @@ public class SettingsWindow extends Frame implements WindowListener {
 		setSize(300,300);
 		setVisible(true);
 		addWindowListener(this);
-		setLayout(new GridLayout(3, 2));
+		setLayout(new GridLayout(0, 2));
 		
 		txtIp = new TextField(Settings.GetIp());
 		txtPort = new TextField(Settings.GetPort() + "");
+
+		txtLowerMicRelay = new TextField(Settings.GetLowerMicRelay());
+		txtRaiseMicRelay = new TextField(Settings.GetRaiseMicRelay());
+		txtLowerScreenRelay = new TextField(Settings.GetLowerScreenRelay());
+		txtRaiseScreenRelay = new TextField(Settings.GetRaiseScreenRelay());
+		chkShowScreenControls = new Checkbox("", Settings.GetShowScreenControls());
 		
 		btnCancel = new Button("Cancel");
 		btnSave = new Button("Save");
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Settings.SetIp(txtIp.getText());
+				Settings.SetIp(txtPort.getText());
+				Settings.SaveSettings();
+			}
+		});
 		
 		add(new Label("IP Address:"));
 		add(txtIp);
@@ -47,6 +69,20 @@ public class SettingsWindow extends Frame implements WindowListener {
 		add(new Label("Port:"));
 		add(txtPort);
 		
+		add(new Label("Raise Mic Relay:"));
+		add(txtRaiseMicRelay);
+		
+		add(new Label("Lower Mic Relay:"));
+		add(txtLowerMicRelay);
+		
+		add(new Label("Raise Screen Relay:"));
+		add(txtRaiseScreenRelay);
+		
+		add(new Label("Lower Screen Relay:"));
+		add(txtLowerScreenRelay);
+		
+		add(new Label("Show Screen Controls:"));
+		add(chkShowScreenControls);		
 		
 		add(btnCancel);
 		add(btnSave);

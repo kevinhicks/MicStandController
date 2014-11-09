@@ -79,7 +79,7 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				SettingsWindow.GetInstance();				
+				SettingsWindow.GetInstance().setVisible(true);
 			}
 		});
 		
