@@ -22,7 +22,7 @@ public class MicThread extends Thread {
 			client.Move(relay, speed);
 
 			try {
-				Thread.sleep(Math.round(1000*speed));
+				Thread.sleep(Math.round(900*speed));
 			} catch (InterruptedException e) {
 				System.out.println("Error in thread");
 				e.printStackTrace();

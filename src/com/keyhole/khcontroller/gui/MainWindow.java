@@ -192,15 +192,13 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				System.out.println("Pressed");
-				continousThread = new MicThread(Settings.GetLowerScreenRelay(), .1f);
-				continousThread.start();
+				WebClient client = new WebClient();
+
+				client.Move(Settings.GetLowerScreenRelay(), .1f);	
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				System.out.println("Released");
-				continousThread.stopMoving();
 			}
 
 		});
@@ -230,15 +228,12 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				System.out.println("Pressed");
-				continousThread = new MicThread(Settings.GetRaiseScreenRelay(), .1f);
-				continousThread.start();
+				WebClient client = new WebClient();
+				client.Move(Settings.GetRaiseScreenRelay(), .1f);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				System.out.println("Released");
-				continousThread.stopMoving();
 			}
 
 		});

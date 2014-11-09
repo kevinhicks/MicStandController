@@ -1,6 +1,5 @@
 package com.keyhole.khcontroller.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,7 +18,9 @@ public class Settings {
 	private String ip;
 	private int port;
 	
-	public Settings() {
+	private boolean showScreenControls;
+	
+	private Settings() {
 
 		Properties prop = new Properties();
 		
@@ -42,6 +43,18 @@ public class Settings {
 		lowerMicRelay = Integer.parseInt(prop.getProperty("LowerMicRelay"));
 		raiseScreenRelay = Integer.parseInt(prop.getProperty("RaiseScreenRelay"));
 		lowerScreenRelay = Integer.parseInt(prop.getProperty("LowerScreenRelay"));
+	}
+	
+	private void GetDefaultSettings() {
+		
+	}
+	
+	private void GetUserSettings() {
+		
+	}
+	
+	public static void SaveSettings() {
+		
 	}
 	
 	public static int GetLowerMicRelay()
@@ -97,6 +110,14 @@ public class Settings {
 	}
 	
 	public static void SetPort(int port) {
+		
+	}
+	
+	public static boolean GetShowScreenControls() {
+		return true;
+	}
+	
+	public static void SetShowScreenControls() {
 		
 	}
 }
