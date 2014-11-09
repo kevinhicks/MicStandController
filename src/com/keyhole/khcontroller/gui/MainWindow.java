@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import com.keyhole.khcontroller.device.WebClient;
 import com.keyhole.khcontroller.util.MicThread;
 import com.keyhole.khcontroller.util.Settings;
 
@@ -32,6 +34,10 @@ public class MainWindow extends Frame implements WindowListener {
 	//Thread that talks to the Web Device
 	MicThread continousThread;
 	
+	//Second thread is used to send stop command
+	MicThread continousThread2;
+	
+	
 	//Menu 
 	MenuBar menuBar;
 	Menu fileMenu;
@@ -47,8 +53,20 @@ public class MainWindow extends Frame implements WindowListener {
 	
 	
 	private MainWindow() {
-		GridLayout masterLayout = new GridLayout(2,2);		
-		setLayout(masterLayout);
+		//Master lay out: 2 Columns
+		GridLayout masterLayout = new GridLayout(1,2);		
+		setLayout(masterLayout);		
+
+		//Mic Panel
+		Panel micPanel = new Panel();
+		micPanel.setLayout(new GridLayout(0,1));
+		
+		//Screen Panel
+		Panel screenPanel = new Panel(new GridLayout(0,1));
+		screenPanel.setLayout(new GridLayout(0,1));
+		
+		this.add(micPanel);
+		this.add(screenPanel);
 		
 		addWindowListener(this);		
 		setVisible(true);
@@ -110,8 +128,7 @@ public class MainWindow extends Frame implements WindowListener {
 			}
 
 		});
-		this.add(btnLowerMic);		
-
+		
 		btnRaiseMic = new Button();
 		btnRaiseMic.setMinimumSize(new Dimension(200, 350));
 		btnRaiseMic.setLabel("Raise Mic");
@@ -232,8 +249,7 @@ public class MainWindow extends Frame implements WindowListener {
 		btnStopScreen.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+			public void mouseClicked(MouseEvent arg0) {	
 
 			}
 
@@ -251,24 +267,25 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				System.out.println("Pressed");
-				continousThread = new MicThread(Settings.GetRaiseScreenRelay(), .1f);
-				continousThread.start();
+				WebClient client = new WebClient();
+
+				client.Move(Settings.GetRaiseScreenRelay(), .1f);
+				client.Move(Settings.GetLowerScreenRelay(), .1f);	
+				
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				System.out.println("Released");
-				continousThread.stopMoving();
+				
 			}
 
 		});
 	
-		this.add(btnLowerMic);
-		this.add(btnRaiseMic);
-		this.add(btnLowerScreen);
-		this.add(btnRaiseScreen);
-		this.add(btnStopScreen);	
+		micPanel.add(btnRaiseMic);
+		micPanel.add(btnLowerMic);
+		screenPanel.add(btnRaiseScreen);
+		screenPanel.add(btnStopScreen);	
+		screenPanel.add(btnLowerScreen);
 		
 		pack();
 	}

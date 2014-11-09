@@ -1,13 +1,13 @@
 <project default="main">
+	<property name="jre.dir" location="${java.home}/.." />
 	<target name="clean">
 		<delete dir="build" />
 		<delete dir="release" />
-		<delete dir="release2" />
 	</target>
 
 	<target name="compile">
 		<mkdir dir="build/classes" />
-		<javac srcdir="src" destdir="build/classes" />
+		<javac srcdir="src" destdir="build/classes" includeantruntime="false"/>
 	</target>
 
 	<target name="jar">
@@ -27,7 +27,8 @@
 	<taskdef name="bundleapp" classname="com.oracle.appbundler.AppBundlerTask" classpath="appbundler-1.0.jar" />
 	<target name="macBundler">
 		<mkdir dir="release" />
-		<bundleapp outputdirectory="release" name="MyApp" identifier="KHController" displayname="TEST_NAME" mainclassname="com.keyhole.khcontroller.KHController">
+		<bundleapp outputdirectory="release" name="Mic Stand Controller" identifier="KHController" displayname="Mic Stand Controller" mainclassname="com.keyhole.khcontroller.KHController">
+			<runtime dir="${jre.dir}" />
 			<classpath file="build/jar/MicStandController.jar" />
 		</bundleapp>
 	</target>
