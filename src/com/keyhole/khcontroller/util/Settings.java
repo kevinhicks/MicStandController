@@ -13,6 +13,14 @@ public class Settings {
 		new Settings();
 	}
 
+	private static final String IP_SETTINGS_KEY = "ip";
+	private static final String PORT_SETTINGS_KEY = "port";
+	private static final String RAISE_MIC_RELAY_SETTINGS_KEY = "RaiseMicRelay";
+	private static final String LOWER_MIC_RELAY_SETTINGS_KEY = "LowerMicRelay";
+	private static final String RAISE_SCREEN_RELAY_SETTINGS_KEY = "RaiseScreenRelay";
+	private static final String LOWER_SCREEN_RELAY_SETTINGS_KEY = "LowerScreenRelay";
+	private static final String SHOW_SCREEN_CONTROLS_SETTINGS_KEY = "ShowScreenControls";
+
 	private static int lowerMicRelay;
 	private static int raiseMicRelay;
 	private static int lowerScreenRelay;
@@ -46,56 +54,69 @@ public class Settings {
 		}
 	}
 
-	private Properties GetDefaultSettings() throws IOException {
+	private static Properties GetDefaultSettings() throws IOException {
 		Properties props = new Properties();
 
 		props.load(ClassLoader.getSystemResourceAsStream("config.properties"));
 		return GetSettings(props);
 	}
 
-	private Properties GetUserSettings() throws IOException {
+	private static Properties GetUserSettings() throws IOException {
 		Properties props = new Properties();
 
 		// Load form the user dir
 		String dir = System.getProperty("user.home");
-		InputStream inStream = new FileInputStream(dir
-				+ "/Mic Stand Controller/config.properties");
+		InputStream inStream = new FileInputStream(dir + "/Mic Stand Controller/config.properties");
 		props.load(inStream);
 		inStream.close();
 
 		return GetSettings(props);
 	}
 
-	public Properties GetSettings(Properties props) {
-		ip = props.getProperty("ip");
-		
+	public static Properties GetSettings(Properties props) {
+		SetIp(props.getProperty(IP_SETTINGS_KEY));
+
 		try {
-			port = Integer.parseInt(props.getProperty("port"));
+			SetPort(Integer.parseInt(props.getProperty(PORT_SETTINGS_KEY)));
 		} catch (NumberFormatException nfe) {
+			System.out.println("E");
+		}
+
+		try {
+			SetRaiseMicRelay(Integer.parseInt(props.getProperty(RAISE_MIC_RELAY_SETTINGS_KEY)));
+		} catch (NumberFormatException nfe) {
+			System.out.println("E");
 
 		}
 
 		try {
-			raiseMicRelay = Integer.parseInt(props.getProperty("RaiseMicRelay"));
+			SetLowerMicRelay(Integer.parseInt(props.getProperty(LOWER_MIC_RELAY_SETTINGS_KEY)));
 		} catch (NumberFormatException nfe) {
+			System.out.println("E");
 
 		}
-		
+
 		try {
-			lowerMicRelay = Integer.parseInt(props.getProperty("LowerMicRelay"));
+			SetRaiseScreenRelay(Integer
+					.parseInt(props.getProperty(RAISE_SCREEN_RELAY_SETTINGS_KEY)));
 		} catch (NumberFormatException nfe) {
+			System.out.println("E");
 
 		}
-		
+
 		try {
-			raiseScreenRelay = Integer.parseInt(props.getProperty("RaiseScreenRelay"));
+			SetLowerScreenRelay(Integer
+					.parseInt(props.getProperty(LOWER_SCREEN_RELAY_SETTINGS_KEY)));
 		} catch (NumberFormatException nfe) {
+			System.out.println("E");
 
 		}
-		
+
 		try {
-			lowerScreenRelay = Integer.parseInt(props.getProperty("LowerScreenRelay"));
+			SetShowScreenControls(Boolean.parseBoolean(props
+					.getProperty(SHOW_SCREEN_CONTROLS_SETTINGS_KEY)));
 		} catch (NumberFormatException nfe) {
+			System.out.println("E");
 
 		}
 
@@ -103,8 +124,17 @@ public class Settings {
 	}
 
 	public static void SaveSettings() {
-		File userHome = new File(System.getProperty("user.home")
-				+ "/Mic Stand Controller/");
+
+		properties.clear();
+		properties.setProperty(IP_SETTINGS_KEY, GetIp());
+		properties.setProperty(PORT_SETTINGS_KEY, GetPort() + "");
+		properties.setProperty(RAISE_MIC_RELAY_SETTINGS_KEY, GetRaiseMicRelay() + "");
+		properties.setProperty(LOWER_MIC_RELAY_SETTINGS_KEY, GetLowerMicRelay() + "");
+		properties.setProperty(RAISE_SCREEN_RELAY_SETTINGS_KEY, GetRaiseScreenRelay() + "");
+		properties.setProperty(LOWER_SCREEN_RELAY_SETTINGS_KEY, GetLowerScreenRelay() + "");
+		properties.setProperty(SHOW_SCREEN_CONTROLS_SETTINGS_KEY, GetShowScreenControls() + "");
+
+		File userHome = new File(System.getProperty("user.home") + "/Mic Stand Controller/");
 		if (!userHome.isDirectory()) {
 			userHome.mkdirs();
 		}
@@ -112,19 +142,23 @@ public class Settings {
 		File propertiesFile = new File(userHome, "config.properties");
 
 		try {
-			properties.store(new FileOutputStream(propertiesFile), "");
+			properties.store(new FileOutputStream(propertiesFile, false), null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		System.out.println("Settings Updated");
 	}
 
-	public static int GetLowerMicRelay() {
-		return lowerMicRelay;
-	}
-
-	public static void SetLowerMicRelay(int relay) {
-		lowerMicRelay = relay;
+	public static void ResetToDefaultSettings() {
+		try {
+			properties = GetDefaultSettings();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SaveSettings();
 	}
 
 	public static int GetRaiseMicRelay() {
@@ -133,14 +167,16 @@ public class Settings {
 
 	public static void SetRaiseMicRelay(int relay) {
 		raiseMicRelay = relay;
+		System.out.println("RaiseMicRelay: " + raiseMicRelay);
 	}
 
-	public static int GetLowerScreenRelay() {
-		return lowerScreenRelay;
+	public static int GetLowerMicRelay() {
+		return lowerMicRelay;
 	}
 
-	public static void SetLowerScreenRelay(int relay) {
-		lowerScreenRelay = relay;
+	public static void SetLowerMicRelay(int relay) {
+		lowerMicRelay = relay;
+		System.out.println("LowerMicRelay: " + lowerMicRelay);
 	}
 
 	public static int GetRaiseScreenRelay() {
@@ -149,6 +185,16 @@ public class Settings {
 
 	public static void SetRaiseScreenRelay(int relay) {
 		raiseScreenRelay = relay;
+		System.out.println("RaiseScreenRelay: " + raiseScreenRelay);
+	}
+
+	public static int GetLowerScreenRelay() {
+		return lowerScreenRelay;
+	}
+
+	public static void SetLowerScreenRelay(int relay) {
+		lowerScreenRelay = relay;
+		System.out.println("LowerScreenRelay: " + lowerScreenRelay);
 	}
 
 	public static String GetIp() {
@@ -157,6 +203,7 @@ public class Settings {
 
 	public static void SetIp(String ipAddress) {
 		ip = ipAddress;
+		System.out.println("IP: " + ip);
 	}
 
 	public static int GetPort() {
@@ -165,13 +212,15 @@ public class Settings {
 
 	public static void SetPort(int portNumber) {
 		port = portNumber;
+		System.out.println("Port: " + port);
 	}
 
 	public static boolean GetShowScreenControls() {
 		return showScreenControls;
 	}
 
-	public static void SetShowScreenControls(boolean showScreenControls) {
-		Settings.showScreenControls = showScreenControls;
+	public static void SetShowScreenControls(boolean showControls) {
+		showScreenControls = showControls;
+		System.out.println("ShowScreenControls: " + showScreenControls);
 	}
 }

@@ -80,6 +80,7 @@ public class MainWindow extends Frame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SettingsWindow.GetInstance().setVisible(true);
+				SettingsWindow.GetInstance().populateUIFromSettings();
 			}
 		});
 		
@@ -117,7 +118,7 @@ public class MainWindow extends Frame implements WindowListener {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				System.out.println("Pressed");
-				continousThread = new MicThread(Settings.GetLowerMicRelay(), .1f);
+				continousThread = new MicThread(Settings.GetLowerMicRelay(), .1f, Settings.GetIp());
 				continousThread.start();
 			}
 
@@ -155,7 +156,7 @@ public class MainWindow extends Frame implements WindowListener {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				System.out.println("Pressed");
-				continousThread = new MicThread(Settings.GetRaiseMicRelay(), .1f);
+				continousThread = new MicThread(Settings.GetRaiseMicRelay(), .1f, Settings.GetIp());
 				continousThread.start();
 			}
 
@@ -192,7 +193,7 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				WebClient client = new WebClient();
+				WebClient client = new WebClient(Settings.GetIp());
 
 				client.Move(Settings.GetLowerScreenRelay(), .1f);	
 			}
@@ -228,7 +229,7 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				WebClient client = new WebClient();
+				WebClient client = new WebClient(Settings.GetIp());
 				client.Move(Settings.GetRaiseScreenRelay(), .1f);
 			}
 
@@ -262,7 +263,7 @@ public class MainWindow extends Frame implements WindowListener {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				WebClient client = new WebClient();
+				WebClient client = new WebClient(Settings.GetIp());
 
 				client.Move(Settings.GetRaiseScreenRelay(), .1f);
 				client.Move(Settings.GetLowerScreenRelay(), .1f);	

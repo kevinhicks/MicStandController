@@ -35,6 +35,7 @@ public class SettingsWindow extends Frame implements WindowListener {
 
 	private Button btnCancel;
 	private Button btnSave;
+	private Button btnResetToDefaultSettings;
 
 	private SettingsWindow() {
 		setSize(300, 300);
@@ -42,15 +43,16 @@ public class SettingsWindow extends Frame implements WindowListener {
 		addWindowListener(this);
 		setLayout(new GridLayout(0, 2));
 
-		txtIp = new TextField(Settings.GetIp());
-		txtPort = new TextField(Settings.GetPort() + "");
+		txtIp = new TextField();
+		txtPort = new TextField();
 
-		txtLowerMicRelay = new TextField(Settings.GetLowerMicRelay() + "");
-		txtRaiseMicRelay = new TextField(Settings.GetRaiseMicRelay() + "");
-		txtLowerScreenRelay = new TextField(Settings.GetLowerScreenRelay() + "");
-		txtRaiseScreenRelay = new TextField(Settings.GetRaiseScreenRelay() + "");
-		chkShowScreenControls = new Checkbox("",
-				Settings.GetShowScreenControls());
+		txtLowerMicRelay = new TextField();
+		txtRaiseMicRelay = new TextField();
+		txtLowerScreenRelay = new TextField();
+		txtRaiseScreenRelay = new TextField();
+		chkShowScreenControls = new Checkbox();
+		
+		populateUIFromSettings();
 
 		btnCancel = new Button("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -67,14 +69,35 @@ public class SettingsWindow extends Frame implements WindowListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Settings.SetIp(txtIp.getText());
-				Settings.SetIp(txtPort.getText());
+				String i = txtIp.getText();
+				Settings.SetIp(i);
+				Settings.SetPort(Integer.parseInt(txtPort.getText()));
+				Settings.SetLowerMicRelay(Integer.parseInt(txtLowerMicRelay.getText()));
+				Settings.SetRaiseMicRelay(Integer.parseInt(txtRaiseMicRelay.getText()));
+				Settings.SetLowerScreenRelay(Integer.parseInt(txtLowerScreenRelay.getText()));
+				Settings.SetRaiseScreenRelay(Integer.parseInt(txtRaiseScreenRelay.getText()));
+				Settings.SetShowScreenControls(chkShowScreenControls.getState());
+				
 				Settings.SaveSettings();
 
 				setVisible(false);
 			}
 		});
-
+		
+		btnResetToDefaultSettings = new Button("Reset ToDefault Settings");
+		btnResetToDefaultSettings.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Settings.ResetToDefaultSettings();			
+				populateUIFromSettings();
+			}
+			
+		});
+		
+		add(btnResetToDefaultSettings);
+		add(new Label());
+		
 		add(new Label("IP Address:"));
 		add(txtIp);
 
@@ -100,6 +123,17 @@ public class SettingsWindow extends Frame implements WindowListener {
 		add(btnSave);
 	}
 
+	public void populateUIFromSettings() {
+		txtIp = new TextField(Settings.GetIp());
+		txtPort = new TextField(Settings.GetPort() + "");
+
+		txtLowerMicRelay.setText(Settings.GetLowerMicRelay() + "");
+		txtRaiseMicRelay.setText(Settings.GetRaiseMicRelay() + "");
+		txtLowerScreenRelay.setText(Settings.GetLowerScreenRelay() + "");
+		txtRaiseScreenRelay.setText(Settings.GetRaiseScreenRelay() + "");
+		chkShowScreenControls.setState(Settings.GetShowScreenControls());
+	}
+	
 	private static SettingsWindow _instance = null;
 
 	public static SettingsWindow GetInstance() {

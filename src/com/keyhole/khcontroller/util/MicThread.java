@@ -8,21 +8,23 @@ public class MicThread extends Thread {
 
 	private int relay;
 	private float speed;
+	private String ip;
 
-	public MicThread(int relay, float speed) {
+	public MicThread(int relay, float speed, String ip) {
 		this.relay = relay;
 		this.speed = speed;
+		this.ip = ip;
 	}
 
 	@Override
 	public void run() {
-		WebClient client = new WebClient();
+		WebClient client = new WebClient(ip);
 
 		while (running) {
 			client.Move(relay, speed);
 
 			try {
-				Thread.sleep(Math.round(900*speed));
+				Thread.sleep(Math.round(900 * speed));
 			} catch (InterruptedException e) {
 				System.out.println("Error in thread");
 				e.printStackTrace();
