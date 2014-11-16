@@ -124,8 +124,8 @@ public class SettingsWindow extends Frame implements WindowListener {
 	}
 
 	public void populateUIFromSettings() {
-		txtIp = new TextField(Settings.GetIp());
-		txtPort = new TextField(Settings.GetPort() + "");
+		txtIp.setText(Settings.GetIp());
+		txtPort.setText(Settings.GetPort() + "");
 
 		txtLowerMicRelay.setText(Settings.GetLowerMicRelay() + "");
 		txtRaiseMicRelay.setText(Settings.GetRaiseMicRelay() + "");
